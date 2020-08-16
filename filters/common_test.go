@@ -11,7 +11,7 @@ import (
 	"github.com/neuronlabs/neuron-extensions/repository/postgres/migrate"
 )
 
-//go:generate neuron-generator models methods --format=goimports --type=QueryModel --single-file .
+//go:generate neurogns models methods methods --format=goimports --type=QueryModel --single-file .
 
 // queryModel is the model used for testing the queries filters.
 type QueryModel struct {
@@ -22,7 +22,7 @@ type QueryModel struct {
 func getScope(t *testing.T) *query.Scope {
 	t.Helper()
 
-	m := mapping.NewModelMap(&mapping.MapOptions{Namer: mapping.SnakeCase})
+	m := mapping.NewModelMap(mapping.WithNamingConvention(mapping.SnakeCase))
 
 	err := m.RegisterModels(&QueryModel{})
 	require.NoError(t, err)

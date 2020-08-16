@@ -10,7 +10,7 @@ import (
 	"github.com/neuronlabs/neuron/mapping"
 )
 
-//go:generate neuron-generator models methods --format=goimports --type=Model,BasicModel --single-file .
+//go:generate neurogns models methods methods --format=goimports --type=Model,BasicModel --single-file .
 
 type Model struct {
 	ID         int        `neuron:"type=primary"`
@@ -73,7 +73,7 @@ func TestParseModel(t *testing.T) {
 func tCtrl(t *testing.T, models ...mapping.Model) *mapping.ModelMap {
 	t.Helper()
 
-	m := mapping.NewModelMap(&mapping.MapOptions{Namer: mapping.SnakeCase})
+	m := mapping.NewModelMap(mapping.WithNamingConvention(mapping.SnakeCase))
 	require.NoError(t, m.RegisterModels(models...))
 	require.NoError(t, PrepareModels(m.Models()...))
 
